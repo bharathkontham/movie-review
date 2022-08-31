@@ -8,6 +8,14 @@ export const UserSchema = new mongoose.Schema(
     },
     description: String,
     IsReviewer: Boolean,
+    username: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
