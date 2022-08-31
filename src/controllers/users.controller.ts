@@ -1,16 +1,7 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { UpdateUserDto } from '../dto/update-user.dto';
-import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   CreateUserSchema,
   LoginSchema,
@@ -18,6 +9,10 @@ import {
 } from '../schemas/user.schema';
 import { User } from '../entities/user.entity';
 import { LoginUserDto } from '../dto/login-user.dto';
+import { JwtGuard } from '../auth/jwt.guard';
+import { RolesGuard } from '../auth/role.guard';
+import { Roles } from '../auth/role.decorator';
+import { Role } from '../enums/role.enum';
 
 @Controller('users')
 export class UsersController {
@@ -38,6 +33,9 @@ export class UsersController {
       items: UserReponseSchema,
     },
   })
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtGuard, RolesGuard)
+  @Roles(Role.REVIEWER)
   async findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
@@ -47,19 +45,6 @@ export class UsersController {
   @ApiResponse({ schema: UserReponseSchema })
   async findById(@Param('id') id: string): Promise<User> {
     return this.usersService.findById(id);
-  }
-
-  @Patch(':id')
-  @ApiTags('User')
-  @ApiResponse({ schema: UserReponseSchema })
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
-  }
-
-  @Delete(':id')
-  @ApiTags('User')
-  async remove(@Param('id') id: string): Promise<boolean> {
-    return this.usersService.remove(id);
   }
 
   @Post('/login')

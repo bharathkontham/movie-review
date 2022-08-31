@@ -11,9 +11,11 @@ import { UsersController } from './controllers/users.controller';
 import { FilmController } from './controllers/film.controller';
 import { FilmService } from './services/film.service';
 import { CommentService } from './services/comment.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    AuthModule,
     ConfigModule.forRoot(),
     MongooseModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({

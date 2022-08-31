@@ -7,7 +7,7 @@ export const UserSchema = new mongoose.Schema(
       required: true,
     },
     description: String,
-    IsReviewer: Boolean,
+    isReviewer: Boolean,
     username: {
       type: String,
       required: true,

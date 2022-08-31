@@ -6,10 +6,14 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from '../dto/login-user.dto';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
+  constructor(
+    @InjectModel('User') private readonly userModel: Model<User>,
+    private readonly authService: AuthService,
+  ) {}
   private hashIterations = 10;
   async create(createUserDto: CreateUserDto) {
     createUserDto.username = createUserDto.username.toLowerCase();
@@ -49,6 +53,10 @@ export class UsersService {
     if (!(await bcrypt.compare(loginInput.password, user.password))) {
       throw new HttpException('Invalid Credentials', HttpStatus.UNAUTHORIZED);
     }
-    return 'success';
+    return this.authService.login({
+      userId: user._id.toString(),
+      username: loginInput.username.toLowerCase(),
+      isReviewer: user.isReviewer,
+    });
   }
 }

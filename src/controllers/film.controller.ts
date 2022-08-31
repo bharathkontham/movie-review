@@ -6,8 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Film } from '../entities/film.entity';
 import {
   CreateFilmSchema,
@@ -21,9 +22,13 @@ import { CreateCommentDto } from '../dto/create-comment.dto';
 import {
   CommentResponseSchema,
   CreateCommentSchema,
-} from 'src/schemas/comment.schema';
-import { CommentService } from 'src/services/comment.service';
-import { Comment } from 'src/entities/comment.entity';
+} from '../schemas/comment.schema';
+import { CommentService } from '../services/comment.service';
+import { Comment } from '../entities/comment.entity';
+import { JwtGuard } from '../auth/jwt.guard';
+import { RolesGuard } from '../auth/role.guard';
+import { Roles } from '../auth/role.decorator';
+import { Role } from '../enums/role.enum';
 
 @Controller('films')
 export class FilmController {
@@ -36,6 +41,9 @@ export class FilmController {
   @ApiTags('Film')
   @ApiBody({ schema: CreateFilmSchema })
   @ApiResponse({ schema: FilmReponseSchema })
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtGuard, RolesGuard)
+  @Roles(Role.REVIEWER)
   create(@Body() createFilmInput: CreateFilmDto) {
     return this.filmService.create(createFilmInput);
   }
@@ -63,12 +71,18 @@ export class FilmController {
   @ApiTags('Film')
   @ApiResponse({ schema: FilmReponseSchema })
   @ApiBody({ schema: UpdateFilmSchema })
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtGuard, RolesGuard)
+  @Roles(Role.REVIEWER)
   update(@Param('id') id: string, @Body() updateFilmInput: UpdateFilmDto) {
     return this.filmService.update(id, updateFilmInput);
   }
 
   @Delete(':id')
   @ApiTags('Film')
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtGuard, RolesGuard)
+  @Roles(Role.REVIEWER)
   async remove(@Param('id') id: string): Promise<boolean> {
     return this.filmService.remove(id);
   }
@@ -77,6 +91,9 @@ export class FilmController {
   @ApiTags('Film')
   @ApiBody({ schema: CreateCommentSchema })
   @ApiResponse({ schema: CommentResponseSchema })
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtGuard, RolesGuard)
+  @Roles(Role.REVIEWER)
   async createComment(
     @Param('id') id: string,
     @Body() comment: CreateCommentDto,

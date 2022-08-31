@@ -1,6 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { getModelToken } from '@nestjs/mongoose';
+import { AuthService } from '../auth/auth.service';
+import { JwtService } from '@nestjs/jwt';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -14,7 +16,9 @@ describe('UsersService', () => {
     }
     const module: TestingModule = await Test.createTestingModule({
       providers: [
+        JwtService,
         UsersService,
+        AuthService,
         {
           provide: getModelToken('User'),
           useValue: mockModel,

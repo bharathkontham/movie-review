@@ -13,8 +13,11 @@ export const CreateUserSchema = {
     description: {
       type: 'string',
     },
+    isReviewer: {
+      type: 'boolean',
+    },
   },
-  required: ['username', 'password', 'name', 'description'],
+  required: ['username', 'password', 'name', 'description', 'isReviewer'],
 };
 
 export const LoginSchema = {
@@ -44,6 +47,9 @@ export const UserReponseSchema = {
     },
     description: {
       type: 'string',
+    },
+    isReviewer: {
+      type: 'boolean',
     },
     createdAt: {
       type: 'string',

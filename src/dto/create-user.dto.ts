@@ -3,4 +3,5 @@ export class CreateUserDto {
   description: string;
   username: string;
   password: string;
+  isReviewer: boolean;
 }
