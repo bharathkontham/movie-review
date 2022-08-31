@@ -16,8 +16,8 @@ import {
   LoginSchema,
   UserReponseSchema,
 } from '../schemas/user.schema';
-import { User } from 'src/entities/user.entity';
-import { LoginUserDto } from 'src/dto/login-user.dto';
+import { User } from '../entities/user.entity';
+import { LoginUserDto } from '../dto/login-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -45,8 +45,8 @@ export class UsersController {
   @Get(':id')
   @ApiTags('User')
   @ApiResponse({ schema: UserReponseSchema })
-  async findOne(@Param('id') id: string): Promise<User> {
-    return this.usersService.findOne(id);
+  async findById(@Param('id') id: string): Promise<User> {
+    return this.usersService.findById(id);
   }
 
   @Patch(':id')

@@ -10,6 +10,7 @@ import { UsersService } from './services/users.service';
 import { UsersController } from './controllers/users.controller';
 import { FilmController } from './controllers/film.controller';
 import { FilmService } from './services/film.service';
+import { CommentService } from './services/comment.service';
 
 @Module({
   imports: [
@@ -40,6 +41,6 @@ import { FilmService } from './services/film.service';
     ]),
   ],
   controllers: [AppController, UsersController, FilmController],
-  providers: [AppService, UsersService, FilmService],
+  providers: [AppService, UsersService, FilmService, CommentService],
 })
 export class AppModule {}

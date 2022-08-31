@@ -14,11 +14,11 @@ export class FilmService {
   }
 
   findAll() {
-    return this.filmModel.find().select({ password: 0 });
+    return this.filmModel.find();
   }
 
-  findOne(id: string) {
-    return this.filmModel.findById(id).select({ password: 0 });
+  findById(id: string) {
+    return this.filmModel.findById(id);
   }
 
   update(id: string, updateFilmInput: UpdateFilmDto) {

@@ -106,5 +106,4 @@ export const UpdateFilmSchema = {
       type: 'string',
     },
   },
-  required: ['rating', 'description', 'review', 'genre', 'photo'],
 };
