@@ -55,3 +55,7 @@ docker-compose up
 > Depends on mongodb, compose file doesn't include mongodb setup
 
 * This docker exposes port 3000, access swagger docs at <http://localhost:3000/docs>
+
+## Heroku
+
+<https://bharath-film-service.herokuapp.com/docs/static/index.html>
