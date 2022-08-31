@@ -6,6 +6,10 @@ import { FilmSchema } from './models/film.model';
 import { UserSchema } from './models/user.model';
 import { CommentSchema } from './models/comment.model';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UsersService } from './services/users.service';
+import { UsersController } from './controllers/users.controller';
+import { FilmController } from './controllers/film.controller';
+import { FilmService } from './services/film.service';
 
 @Module({
   imports: [
@@ -35,7 +39,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       },
     ]),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, UsersController, FilmController],
+  providers: [AppService, UsersService, FilmService],
 })
 export class AppModule {}
